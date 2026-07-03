@@ -4,242 +4,614 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>D2F Regulatory Dependency Assessment™</title>
+
   <style>
     :root {
-      --bg: #f7f4ec;
-      --ink: #151515;
-      --red: #d72638;
+      --blue: #0b2345;
+      --blue-2: #123866;
+      --red: #d21f2b;
       --gold: #c9a646;
-      --blue: #193b68;
       --green: #2e9d6f;
+      --orange: #e58a21;
+      --bg: #f4f6f8;
       --card: #ffffff;
-      --muted: #6b6b6b;
+      --ink: #172033;
+      --muted: #667085;
+      --line: #e5e7eb;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
-      font-family: Inter, Arial, sans-serif;
-      background:
-        radial-gradient(circle at top left, #ffe8a3 0, transparent 28%),
-        radial-gradient(circle at top right, #d6ecff 0, transparent 30%),
-        var(--bg);
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
       color: var(--ink);
     }
 
-    .wrap {
-      max-width: 980px;
-      margin: auto;
-      padding: 36px 20px;
+    .topbar {
+      background: #fff;
+      padding: 18px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo {
+      height: 54px;
+    }
+
+    .lab {
+      text-align: right;
+      color: var(--blue);
+      font-weight: 700;
+      line-height: 1.35;
     }
 
     .hero {
-      background: var(--card);
-      border-radius: 28px;
-      padding: 34px;
-      box-shadow: 0 18px 45px rgba(0,0,0,.08);
-      border: 2px solid #efe6d0;
+      background: linear-gradient(135deg, #050505, #101923);
+      color: white;
+      padding: 34px 44px;
+      border-bottom: 4px solid var(--gold);
     }
 
-    .tag {
-      color: var(--blue);
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      font-size: 13px;
-      text-transform: uppercase;
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 48px);
+      letter-spacing: 0.5px;
     }
 
-    h1 {
-      font-size: clamp(34px, 6vw, 62px);
-      line-height: .95;
-      margin: 18px 0;
-    }
-
-    h2 { color: var(--blue); }
-
-    .highlight { color: var(--red); }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin: 24px 0;
-    }
-
-    .pill {
-      background: #fff7da;
-      border: 1px solid #efd680;
-      border-radius: 18px;
-      padding: 16px;
+    .hero .sub {
+      color: var(--gold);
+      font-size: 18px;
       font-weight: 700;
+      margin-top: 8px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      gap: 28px;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .metric {
       text-align: center;
+      font-weight: 700;
+    }
+
+    .metric span {
+      display: block;
+      font-size: 28px;
+      color: #fff;
+    }
+
+    .wrap {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 28px 22px 60px;
     }
 
     .card {
       background: var(--card);
-      border-radius: 24px;
-      padding: 28px;
-      margin-top: 24px;
-      box-shadow: 0 12px 32px rgba(0,0,0,.07);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 26px;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+    }
+
+    .home-card {
+      max-width: 900px;
+      margin: 34px auto;
+      text-align: center;
+      padding: 44px;
+    }
+
+    .home-card h2 {
+      font-size: clamp(30px, 5vw, 58px);
+      margin: 8px 0 16px;
+      color: var(--blue);
+    }
+
+    .home-card p {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .pill-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin: 28px 0;
+    }
+
+    .pill {
+      background: #fff8df;
+      color: var(--blue);
+      border: 1px solid #eadba4;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 800;
     }
 
     input[type="text"],
     input[type="email"] {
       width: 100%;
       padding: 15px;
-      border-radius: 14px;
-      border: 2px solid #e5dcc9;
+      border: 1px solid #d0d5dd;
+      border-radius: 10px;
       margin: 8px 0 14px;
       font-size: 16px;
     }
 
     button {
-      background: var(--red);
+      background: var(--blue);
       color: white;
       border: 0;
-      padding: 15px 24px;
-      border-radius: 999px;
+      padding: 14px 22px;
+      border-radius: 8px;
       font-weight: 800;
       cursor: pointer;
-      font-size: 16px;
-      box-shadow: 0 10px 20px rgba(215,38,56,.25);
+      font-size: 15px;
     }
 
-    button.secondary {
-      background: var(--blue);
-      margin-left: 8px;
+    button.red {
+      background: var(--red);
     }
 
-    label {
-      display: block;
-      background: #f8fafc;
-      border: 2px solid #e7edf5;
-      border-radius: 16px;
-      padding: 14px;
-      margin: 10px 0;
-      cursor: pointer;
-      font-weight: 600;
+    button.light {
+      background: white;
+      color: var(--blue);
+      border: 1px solid #cbd5e1;
     }
 
-    label:hover {
-      border-color: var(--gold);
-      background: #fff9e8;
+    button:hover {
+      opacity: 0.92;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .question-card {
+      max-width: 820px;
+      margin: 34px auto;
+    }
+
+    .tag {
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 800;
+      font-size: 13px;
     }
 
     .progress {
-      height: 12px;
-      background: #eee;
+      height: 11px;
+      background: #e5e7eb;
       border-radius: 999px;
       overflow: hidden;
-      margin: 18px 0;
+      margin: 18px 0 26px;
     }
 
     .bar {
       height: 100%;
       width: 0%;
       background: linear-gradient(90deg, var(--green), var(--gold), var(--red));
-      transition: .3s;
+      transition: 0.3s ease;
     }
 
-    .hidden { display: none; }
+    .answers label {
+      display: block;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 16px;
+      margin: 12px 0;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .answers label:hover {
+      border-color: var(--gold);
+      background: #fff9e8;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 22px;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 18px;
+    }
+
+    .score-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 220px;
+    }
 
     .score {
-      font-size: 56px;
+      color: var(--red);
+      font-size: 82px;
+      line-height: 1;
       font-weight: 900;
+    }
+
+    .score small {
+      font-size: 42px;
+      font-weight: 400;
+    }
+
+    .level-title {
+      color: var(--red);
+      font-size: 32px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .level-sub {
+      color: var(--red);
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .analysis-row {
+      display: grid;
+      grid-template-columns: 40px 1fr 110px;
+      gap: 14px;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .analysis-row:last-child {
+      border-bottom: 0;
+    }
+
+    .risk {
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .risk.low {
+      color: var(--green);
+    }
+
+    .risk.medium {
+      color: var(--orange);
+    }
+
+    .risk.high {
       color: var(--red);
     }
 
-    .level {
-      display: inline-block;
-      padding: 12px 18px;
-      border-radius: 999px;
-      background: #fff1b8;
+    .recommendation {
+      display: grid;
+      grid-template-columns: 36px 1fr 110px;
+      gap: 14px;
+      align-items: start;
+      margin: 16px 0;
+    }
+
+    .priority {
       font-weight: 900;
-      color: var(--ink);
+      font-size: 12px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      text-align: center;
+      background: #fff1f1;
+      color: var(--red);
+    }
+
+    .priority.medium {
+      background: #fff6e8;
+      color: var(--orange);
+    }
+
+    .opinion {
+      background: #fff9eb;
+      border: 1px solid #eadba4;
+    }
+
+    .contact {
+      background: #eef6ff;
+      border: 1px solid #cfe2ff;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .radar-wrap {
+      min-height: 360px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    svg {
+      max-width: 100%;
     }
 
     .footer {
-      text-align: center;
-      color: var(--muted);
+      background: #050505;
+      color: #b8bec9;
+      padding: 18px 36px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
       font-size: 13px;
-      margin: 36px 0 10px;
+      margin-top: 40px;
     }
 
-    @media (max-width: 720px) {
-      .grid { grid-template-columns: 1fr; }
-      .hero { padding: 24px; }
+    .print-only {
+      display: none;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .home-card,
+      .question-card,
+      .actions,
+      button {
+        display: none !important;
+      }
+
+      .dashboard {
+        display: block;
+      }
+
+      .card {
+        box-shadow: none;
+        page-break-inside: avoid;
+        margin-bottom: 16px;
+      }
+
+      .print-only {
+        display: block;
+      }
+    }
+
+    @media (max-width: 880px) {
+      .hero-grid,
+      .dashboard,
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+      }
+
+      .lab {
+        text-align: center;
+      }
+
+      .score {
+        font-size: 64px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <section class="hero" id="home">
-      <div class="tag">D2F Normative Lab · Digital Compliance Instrument No.001</div>
-      <h1>Regulatory Dependency <span class="highlight">Assessment™</span></h1>
+  <header class="topbar">
+    <img src="logo.jpg" class="logo" alt="D2F Compliant logo" />
+    <div class="lab">
+      D2F NORMATIVE LAB<br />
+      Digital Compliance Instruments™
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <h1>D2F Regulatory Dependency Assessment™</h1>
+        <div class="sub">Instrument No.001 · Regulatory positioning tool</div>
+      </div>
+      <div class="metric"><span>3</span>minutes</div>
+      <div class="metric"><span>10</span>questions</div>
+      <div class="metric"><span>1</span>objective</div>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <section id="home" class="card home-card">
+      <div class="tag">D2F Normative Lab</div>
+      <h2>How dependent is your compliance?</h2>
       <p>
-        Measure how dependent your compliance architecture is on external actors,
-        platforms and outsourced regulatory services.
+        This instrument evaluates your organisation’s ability to demonstrate
+        regulatory compliance when activities are distributed across platforms,
+        providers, operators and external regulatory services.
       </p>
 
-      <div class="grid">
+      <div class="pill-row">
         <div class="pill">10 questions</div>
-        <div class="pill">3 minutes</div>
         <div class="pill">Instant score</div>
+        <div class="pill">Regulatory position</div>
+        <div class="pill">D2F interpretation</div>
       </div>
 
-      <p><strong>Question:</strong> can your organisation still demonstrate compliance if one provider disappears tomorrow?</p>
-      <button onclick="showIntro()">Start assessment</button>
+      <p>
+        The question is simple:
+        <strong>can you still demonstrate compliance if one provider disappears tomorrow?</strong>
+      </p>
+
+      <button class="red" onclick="showIntro()">Start assessment</button>
     </section>
 
-    <section id="intro" class="card hidden">
+    <section id="intro" class="card question-card hidden">
+      <div class="tag">Participant information</div>
       <h2>Before we start</h2>
-      <p>This tool does not evaluate your software. It evaluates your ability to demonstrate compliance when regulatory activities are distributed across multiple actors.</p>
+      <p>
+        These details are used only to prepare your assessment summary and to
+        allow you to contact D2F with your result.
+      </p>
 
       <input id="name" type="text" placeholder="Full name" />
       <input id="company" type="text" placeholder="Organisation" />
       <input id="email" type="email" placeholder="Email" />
 
-      <button onclick="start()">Begin</button>
+      <button class="red" onclick="start()">Begin assessment</button>
     </section>
 
-    <section id="quiz" class="card hidden">
+    <section id="quiz" class="card question-card hidden">
       <div class="tag" id="stepTag"></div>
       <div class="progress"><div class="bar" id="bar"></div></div>
       <h2 id="questionTitle"></h2>
-      <div id="answers"></div>
-      <button onclick="next()">Next</button>
+      <div id="answers" class="answers"></div>
+      <button class="red" onclick="next()">Next</button>
     </section>
 
-    <section id="result" class="card hidden">
-      <div class="tag">D2F Regulatory Dependency Score</div>
-      <h2>Your result</h2>
-      <div class="score" id="scoreText"></div>
-      <p class="level" id="levelText"></p>
-      <p id="interpretation"></p>
+    <section id="result" class="hidden">
+      <div class="dashboard">
+        <div>
+          <div class="result-grid">
+            <div class="card score-box">
+              <div class="tag">Your result</div>
+              <div class="score"><span id="scoreText"></span> <small>/ 30</small></div>
+              <h3>Total score</h3>
+            </div>
 
-      <button onclick="window.print()">Download report</button>
-      <button class="secondary" onclick="contactD2F()">Discuss with D2F</button>
+            <div class="card">
+              <div class="level-title" id="levelText"></div>
+              <div class="level-sub" id="levelSub"></div>
+              <p id="interpretation"></p>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 22px;">
+            <div class="tag">Detailed analysis</div>
+            <div id="dimensionAnalysis"></div>
+          </div>
+
+          <div class="card opinion" style="margin-top: 22px;">
+            <div class="tag">D2F Normative Opinion™</div>
+            <p id="normativeOpinion"></p>
+            <p>
+              A high regulatory dependency score does not mean non-compliance
+              today. It means that compliance may become difficult to demonstrate
+              tomorrow if responsibilities, evidence and dependencies are not
+              formally controlled.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <div class="tag">Your position across 5 dimensions</div>
+            <div class="radar-wrap">
+              <svg id="radar" width="420" height="360" viewBox="0 0 420 360"></svg>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 22px;">
+            <div class="tag">Key recommendations</div>
+            <div id="recommendations"></div>
+          </div>
+
+          <div class="card contact" style="margin-top: 22px;">
+            <div class="tag">Next steps with D2F Compliant</div>
+            <p>
+              Turn this assessment into a concrete action plan with D2F.
+            </p>
+            <ul>
+              <li>Detailed interpretation of your result.</li>
+              <li>Regulatory architecture review.</li>
+              <li>Roadmap to strengthen compliance demonstrability.</li>
+            </ul>
+
+            <div class="actions">
+              <button class="red" onclick="window.print()">Download PDF report</button>
+              <button onclick="contactD2F()">Contact D2F</button>
+              <button class="light" onclick="restart()">Restart</button>
+            </div>
+
+            <p><strong>contact@d2fcompliant.com</strong></p>
+          </div>
+        </div>
+      </div>
     </section>
+  </main>
 
-    <div class="footer">
-      D2F Compliant · D2F Normative Lab · contact@d2fcompliant.com
-    </div>
-  </div>
+  <footer class="footer">
+    <div>D2F Compliant · D2F Normative Lab</div>
+    <div>Instrument No.001 · Regulatory Dependency Assessment™ · v1.0</div>
+  </footer>
 
   <script>
     const questions = [
-      ["Business event", "Can every invoice be linked to a clearly identified business event?", ["Fully documented", "Mostly documented", "Partially documented", "Unknown"]],
-      ["Business evidence", "Can every business event be supported by business evidence?", ["Always", "Most cases", "Occasionally", "Unknown"]],
-      ["Accountability", "Can you identify who remains accountable after each outsourced compliance activity?", ["Fully identified", "Mostly identified", "Partially identified", "Unknown"]],
-      ["Platform failure", "If your platform becomes unavailable tomorrow, can your organisation still demonstrate compliance?", ["Yes", "With limitations", "Difficult", "Impossible"]],
-      ["Transformations", "Are every transformation of the transaction documented?", ["Completely", "Mostly", "Partially", "Unknown"]],
-      ["Transformation evidence", "Can you demonstrate what changed at every transformation?", ["Yes", "Mostly", "Partially", "Unknown"]],
-      ["External actors", "How many external organisations participate in your compliance process?", ["None", "1–2", "3–5", "More than 5"]],
-      ["Dependency assessment", "Have these regulatory dependencies been formally assessed?", ["Yes", "Partially", "Planned", "No"]],
-      ["Audit reconstruction", "Five years after transmission, could an auditor reconstruct the complete transaction?", ["Yes", "Mostly", "Partially", "No"]],
-      ["Independent demonstrability", "Without contacting your providers, could your organisation independently demonstrate compliance?", ["Yes", "Mostly", "Partially", "No"]]
+      {
+        dimension: "Business integrity",
+        title: "Can every invoice be linked to a clearly identified business event?",
+        answers: ["Fully documented", "Mostly documented", "Partially documented", "Unknown"]
+      },
+      {
+        dimension: "Evidence",
+        title: "Can every business event be supported by business evidence?",
+        answers: ["Always", "Most cases", "Occasionally", "Unknown"]
+      },
+      {
+        dimension: "Accountability",
+        title: "Can you identify who remains accountable after each outsourced compliance activity?",
+        answers: ["Fully identified", "Mostly identified", "Partially identified", "Unknown"]
+      },
+      {
+        dimension: "Regulatory dependency",
+        title: "If your platform becomes unavailable tomorrow, can your organisation still demonstrate compliance?",
+        answers: ["Yes", "With limitations", "Difficult", "Impossible"]
+      },
+      {
+        dimension: "Demonstrability",
+        title: "Are every transformation of the transaction documented?",
+        answers: ["Completely", "Mostly", "Partially", "Unknown"]
+      },
+      {
+        dimension: "Demonstrability",
+        title: "Can you demonstrate what changed at every transformation?",
+        answers: ["Yes", "Mostly", "Partially", "Unknown"]
+      },
+      {
+        dimension: "Regulatory dependency",
+        title: "How many external organisations participate in your compliance process?",
+        answers: ["None", "1–2", "3–5", "More than 5"]
+      },
+      {
+        dimension: "Regulatory dependency",
+        title: "Have these regulatory dependencies been formally assessed?",
+        answers: ["Yes", "Partially", "Planned", "No"]
+      },
+      {
+        dimension: "Auditability",
+        title: "Five years after transmission, could an auditor reconstruct the complete transaction?",
+        answers: ["Yes", "Mostly", "Partially", "No"]
+      },
+      {
+        dimension: "Auditability",
+        title: "Without contacting your providers, could your organisation independently demonstrate compliance?",
+        answers: ["Yes", "Mostly", "Partially", "No"]
+      }
     ];
 
     let current = 0;
@@ -258,18 +630,20 @@
     }
 
     function showQuestion() {
+      const question = questions[current];
+
       document.getElementById("stepTag").innerText =
-        questions[current][0] + " · Question " + (current + 1) + "/10";
+        question.dimension + " · Question " + (current + 1) + "/10";
 
       document.getElementById("bar").style.width =
         ((current + 1) / questions.length * 100) + "%";
 
-      document.getElementById("questionTitle").innerText = questions[current][1];
+      document.getElementById("questionTitle").innerText = question.title;
 
       const answers = document.getElementById("answers");
       answers.innerHTML = "";
 
-      questions[current][2].forEach((answer, index) => {
+      question.answers.forEach((answer, index) => {
         answers.innerHTML += `
           <label>
             <input type="radio" name="answer" value="${index}">
@@ -286,8 +660,16 @@
         return;
       }
 
-      score += Number(selected.value);
-      responses.push(selected.parentElement.innerText.trim());
+      const value = Number(selected.value);
+      score += value;
+
+      responses.push({
+        dimension: questions[current].dimension,
+        question: questions[current].title,
+        answer: selected.parentElement.innerText.trim(),
+        value: value
+      });
+
       current++;
 
       if (current < questions.length) {
@@ -301,39 +683,271 @@
       document.getElementById("quiz").classList.add("hidden");
       document.getElementById("result").classList.remove("hidden");
 
-      let level;
-      let text;
+      const profile = getProfile(score);
 
-      if (score <= 6) {
-        level = "Level I · Operationally resilient";
-        text = "Your organisation appears to have limited regulatory dependency.";
-      } else if (score <= 14) {
-        level = "Level II · Moderate regulatory dependency";
-        text = "Some dependencies should be clarified before they become regulatory risks.";
-      } else if (score <= 22) {
-        level = "Level III · Significant regulatory dependency";
-        text = "Your ability to demonstrate compliance may depend heavily on external actors.";
-      } else {
-        level = "Level IV · Critical regulatory dependency";
-        text = "Your compliance architecture may not remain demonstrable if key providers fail.";
+      document.getElementById("scoreText").innerText = score;
+      document.getElementById("levelText").innerText = profile.level;
+      document.getElementById("levelSub").innerText = profile.sub;
+      document.getElementById("interpretation").innerText = profile.text;
+      document.getElementById("normativeOpinion").innerText = profile.opinion;
+
+      renderDimensionAnalysis();
+      renderRecommendations();
+      renderRadar();
+      window.scrollTo(0, 0);
+    }
+
+    function getProfile(total) {
+      if (total <= 6) {
+        return {
+          level: "Level I",
+          sub: "Operationally resilient",
+          text: "Your organisation appears to have a controlled compliance architecture with limited dependency exposure.",
+          opinion: "The assessment suggests that your organisation is currently able to maintain a relatively independent demonstration capability."
+        };
       }
 
-      document.getElementById("scoreText").innerText = score + " / 30";
-      document.getElementById("levelText").innerText = level;
-      document.getElementById("interpretation").innerText = text;
+      if (total <= 14) {
+        return {
+          level: "Level II",
+          sub: "Moderate regulatory dependency",
+          text: "Your organisation shows several dependency points that should be clarified before they become regulatory risks.",
+          opinion: "The assessment suggests that some compliance evidence and responsibilities may already depend on external actors."
+        };
+      }
+
+      if (total <= 22) {
+        return {
+          level: "Level III",
+          sub: "Significant regulatory dependency",
+          text: "Your compliance architecture depends on multiple external actors. Your ability to demonstrate compliance may be compromised if one of them fails, changes or becomes unavailable.",
+          opinion: "The assessment indicates that demonstrability may depend materially on external regulatory services. The priority is to document dependencies, responsibilities and evidence continuity."
+        };
+      }
+
+      return {
+        level: "Level IV",
+        sub: "Critical regulatory dependency",
+        text: "Your compliance architecture may not remain demonstrable if key providers fail or if historical evidence cannot be reproduced independently.",
+        opinion: "The assessment indicates a high level of regulatory dependency. Immediate review of accountability, evidence continuity and audit reconstruction is recommended."
+      };
+    }
+
+    function getDimensionScores() {
+      const dimensions = {
+        "Accountability": [],
+        "Evidence": [],
+        "Demonstrability": [],
+        "Auditability": [],
+        "Regulatory dependency": [],
+        "Business integrity": []
+      };
+
+      responses.forEach((r) => {
+        if (dimensions[r.dimension]) {
+          dimensions[r.dimension].push(r.value);
+        }
+      });
+
+      const scores = {};
+
+      Object.keys(dimensions).forEach((dimension) => {
+        const values = dimensions[dimension];
+
+        if (values.length === 0) {
+          scores[dimension] = 100;
+          return;
+        }
+
+        const max = values.length * 3;
+        const actual = values.reduce((a, b) => a + b, 0);
+        scores[dimension] = Math.round(100 - (actual / max * 100));
+      });
+
+      return scores;
+    }
+
+    function riskLabel(value) {
+      if (value >= 75) return ["Low", "low"];
+      if (value >= 50) return ["Medium", "medium"];
+      return ["High", "high"];
+    }
+
+    function renderDimensionAnalysis() {
+      const scores = getDimensionScores();
+      const container = document.getElementById("dimensionAnalysis");
+      container.innerHTML = "";
+
+      const comments = {
+        "Accountability": "Ability to identify who remains accountable after outsourced activities.",
+        "Evidence": "Availability and independence of business and regulatory evidence.",
+        "Demonstrability": "Capacity to prove what changed during each transformation.",
+        "Auditability": "Capacity to reconstruct the complete transaction over time.",
+        "Regulatory dependency": "Exposure to external actors and delegated regulatory services.",
+        "Business integrity": "Ability to link invoices to real economic events."
+      };
+
+      Object.keys(scores).forEach((dimension) => {
+        const risk = riskLabel(scores[dimension]);
+
+        container.innerHTML += `
+          <div class="analysis-row">
+            <div>■</div>
+            <div>
+              <strong>${dimension}</strong><br />
+              <span style="color: var(--muted); font-size: 13px;">${comments[dimension]}</span>
+            </div>
+            <div class="risk ${risk[1]}">${risk[0]} · ${scores[dimension]}%</div>
+          </div>`;
+      });
+    }
+
+    function renderRecommendations() {
+      const scores = getDimensionScores();
+      const sorted = Object.entries(scores).sort((a, b) => a[1] - b[1]);
+      const container = document.getElementById("recommendations");
+      container.innerHTML = "";
+
+      const recs = {
+        "Accountability": [
+          "Formalise accountability",
+          "Define who remains accountable after each outsourced compliance activity."
+        ],
+        "Evidence": [
+          "Secure evidence continuity",
+          "Ensure evidence can be produced independently from providers."
+        ],
+        "Demonstrability": [
+          "Strengthen transformation traceability",
+          "Document what changes during each transaction transformation."
+        ],
+        "Auditability": [
+          "Validate audit reconstruction",
+          "Test whether a transaction can be reconstructed several years later."
+        ],
+        "Regulatory dependency": [
+          "Map regulatory dependencies",
+          "Inventory external actors and assess the impact of their failure."
+        ],
+        "Business integrity": [
+          "Reinforce business event linkage",
+          "Ensure invoices remain connected to the originating economic event."
+        ]
+      };
+
+      sorted.slice(0, 4).forEach((entry, index) => {
+        const dimension = entry[0];
+        const scoreValue = entry[1];
+        const priorityClass = scoreValue < 50 ? "" : "medium";
+        const priorityText = scoreValue < 50 ? "HIGH" : "MEDIUM";
+
+        container.innerHTML += `
+          <div class="recommendation">
+            <div style="color: var(--red); font-size: 24px;">△</div>
+            <div>
+              <strong>${recs[dimension][0]}</strong><br />
+              <span style="color: var(--muted); font-size: 13px;">${recs[dimension][1]}</span>
+            </div>
+            <div class="priority ${priorityClass}">${priorityText}</div>
+          </div>`;
+      });
+    }
+
+    function renderRadar() {
+      const scores = getDimensionScores();
+      const labels = [
+        "Accountability",
+        "Evidence",
+        "Demonstrability",
+        "Auditability",
+        "Regulatory dependency"
+      ];
+
+      const cx = 210;
+      const cy = 175;
+      const radius = 120;
+      const svg = document.getElementById("radar");
+      svg.innerHTML = "";
+
+      for (let ring = 1; ring <= 4; ring++) {
+        const r = radius * ring / 4;
+        svg.innerHTML += polygon(labels.length, r, cx, cy, "none", "#d5dae3", 1);
+      }
+
+      labels.forEach((label, i) => {
+        const angle = -Math.PI / 2 + (2 * Math.PI * i / labels.length);
+        const x = cx + Math.cos(angle) * radius;
+        const y = cy + Math.sin(angle) * radius;
+
+        svg.innerHTML += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#d5dae3" />`;
+
+        const lx = cx + Math.cos(angle) * (radius + 42);
+        const ly = cy + Math.sin(angle) * (radius + 34);
+
+        svg.innerHTML += `
+          <text x="${lx}" y="${ly}" text-anchor="middle" font-size="11" font-weight="700" fill="#0b2345">
+            ${label}
+          </text>`;
+      });
+
+      const points = labels.map((label, i) => {
+        const value = scores[label] || 0;
+        const r = radius * value / 100;
+        const angle = -Math.PI / 2 + (2 * Math.PI * i / labels.length);
+        return [
+          cx + Math.cos(angle) * r,
+          cy + Math.sin(angle) * r
+        ];
+      });
+
+      svg.innerHTML += `
+        <polygon points="${points.map((p) => p.join(",")).join(" ")}"
+          fill="rgba(210,31,43,0.16)"
+          stroke="#d21f2b"
+          stroke-width="3" />`;
+
+      points.forEach((p) => {
+        svg.innerHTML += `<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="#d21f2b" />`;
+      });
+    }
+
+    function polygon(sides, radius, cx, cy, fill, stroke, width) {
+      let points = [];
+
+      for (let i = 0; i < sides; i++) {
+        const angle = -Math.PI / 2 + (2 * Math.PI * i / sides);
+        points.push([
+          cx + Math.cos(angle) * radius,
+          cy + Math.sin(angle) * radius
+        ]);
+      }
+
+      return `<polygon points="${points.map((p) => p.join(",")).join(" ")}"
+        fill="${fill}" stroke="${stroke}" stroke-width="${width}" />`;
     }
 
     function contactD2F() {
-      const subject = "D2F Regulatory Dependency Assessment result";
-      const body =
-        "Name: " + document.getElementById("name").value + "%0D%0A" +
-        "Organisation: " + document.getElementById("company").value + "%0D%0A" +
-        "Email: " + document.getElementById("email").value + "%0D%0A" +
-        "Score: " + score + "/30%0D%0A%0D%0A" +
-        "I would like to discuss the interpretation of this assessment.";
+      const subject = encodeURIComponent("D2F Regulatory Dependency Assessment result");
+      const body = encodeURIComponent(
+        "Name: " + document.getElementById("name").value + "\n" +
+        "Organisation: " + document.getElementById("company").value + "\n" +
+        "Email: " + document.getElementById("email").value + "\n" +
+        "Score: " + score + "/30\n\n" +
+        "I would like to discuss the interpretation of this assessment."
+      );
 
       window.location.href =
         "mailto:contact@d2fcompliant.com?subject=" + subject + "&body=" + body;
+    }
+
+    function restart() {
+      current = 0;
+      score = 0;
+      responses = [];
+
+      document.getElementById("result").classList.add("hidden");
+      document.getElementById("home").classList.remove("hidden");
+      window.scrollTo(0, 0);
     }
   </script>
 </body>
