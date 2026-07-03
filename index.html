@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>D2F Regulatory Dependency Assessment</title>
+  <style>
+    body { margin:0; font-family:Arial,sans-serif; background:#0A0A0A; color:#fff; }
+    .wrap { max-width:900px; margin:auto; padding:50px 24px; }
+    .tag { color:#C9A646; letter-spacing:2px; font-size:13px; }
+    h1 { font-size:42px; margin:15px 0; }
+    h2 { color:#C9A646; }
+    .card { background:#151515; border:1px solid #333; padding:28px; border-radius:18px; margin:22px 0; }
+    button { background:#C9A646; color:#000; border:0; padding:14px 22px; border-radius:8px; font-weight:bold; cursor:pointer; }
+    label { display:block; margin:12px 0; padding:12px; background:#202020; border-radius:8px; cursor:pointer; }
+    input[type="text"], input[type="email"] { width:100%; padding:14px; border-radius:8px; border:1px solid #555; background:#111; color:#fff; margin:8px 0 16px; }
+    .hidden { display:none; }
+    .score { font-size:44px; color:#C9A646; }
+    .footer { color:#888; font-size:13px; margin-top:40px; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="tag">D2F NORMATIVE LAB · DIGITAL COMPLIANCE INSTRUMENT No.001</div>
+  <h1>Regulatory Dependency Assessment™</h1>
+  <p>This assessment does not evaluate your software. It evaluates your ability to demonstrate compliance when regulatory activities are distributed across multiple actors.</p>
+
+  <div id="intro" class="card">
+    <h2>Start assessment</h2>
+    <input id="name" type="text" placeholder="Full name" />
+    <input id="company" type="text" placeholder="Organisation" />
+    <input id="email" type="email" placeholder="Email" />
+    <button onclick="start()">Start</button>
+  </div>
+
+  <div id="quiz" class="card hidden">
+    <h2 id="questionTitle"></h2>
+    <div id="answers"></div>
+    <button onclick="next()">Next</button>
+  </div>
+
+  <div id="result" class="card hidden">
+    <h2>Your Regulatory Dependency Score</h2>
+    <div class="score" id="scoreText"></div>
+    <h2 id="levelText"></h2>
+    <p id="interpretation"></p>
+    <button onclick="window.print()">Download / Print report</button>
+    <button onclick="sendEmail()">Send results by email</button>
+  </div>
+
+  <div class="footer">
+    D2F Compliant · D2F Normative Lab · Regulatory Dependency Assessment™ v1.0
+  </div>
+</div>
+
+<script>
+const questions = [
+  ["Can every invoice be linked to a clearly identified business event?", ["Fully documented", "Mostly documented", "Partially documented", "Unknown"]],
+  ["Can every business event be supported by business evidence?", ["Always", "Most cases", "Occasionally", "Unknown"]],
+  ["Can you identify who remains accountable after each outsourced compliance activity?", ["Fully identified", "Mostly identified", "Partially identified", "Unknown"]],
+  ["If your platform becomes unavailable tomorrow, can your organisation still demonstrate compliance?", ["Yes", "With limitations", "Difficult", "Impossible"]],
+  ["Are every transformation of the transaction documented?", ["Completely", "Mostly", "Partially", "Unknown"]],
+  ["Can you demonstrate what changed at every transformation?", ["Yes", "Mostly", "Partially", "Unknown"]],
+  ["How many external organisations participate in your compliance process?", ["None", "1–2", "3–5", "More than 5"]],
+  ["Have these regulatory dependencies been formally assessed?", ["Yes", "Partially", "Planned", "No"]],
+  ["Five years after transmission, could an auditor reconstruct the complete transaction?", ["Yes", "Mostly", "Partially", "No"]],
+  ["Without contacting your providers, could your organisation independently demonstrate compliance?", ["Yes", "Mostly", "Partially", "No"]]
+];
+
+let current = 0;
+let score = 0;
+let responses = [];
+
+function start() {
+  document.getElementById("intro").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  showQuestion();
+}
+
+function showQuestion() {
+  document.getElementById("questionTitle").innerText = "Q" + (current + 1) + ". " + questions[current][0];
+  const answers = document.getElementById("answers");
+  answers.innerHTML = "";
+  questions[current][1].forEach((answer, index) => {
+    answers.innerHTML += `<label><input type="radio" name="answer" value="${index}"> ${answer}</label>`;
+  });
+}
+
+function next() {
+  const selected = document.querySelector('input[name="answer"]:checked');
+  if (!selected) return alert("Please select an answer.");
+  score += Number(selected.value);
+  responses.push(selected.parentElement.innerText.trim());
+  current++;
+  if (current < questions.length) showQuestion();
+  else showResult();
+}
+
+function showResult() {
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+
+  let level, text;
+  if (score <= 6) {
+    level = "Operationally resilient";
+    text = "Your organisation appears to have limited regulatory dependency.";
+  } else if (score <= 14) {
+    level = "Moderate regulatory dependency";
+    text = "Some dependencies should be clarified before they become regulatory risks.";
+  } else if (score <= 22) {
+    level = "Significant regulatory dependency";
+    text = "Your ability to demonstrate compliance may depend heavily on external actors.";
+  } else {
+    level = "Critical regulatory dependency";
+    text = "Your compliance architecture may not remain demonstrable if key providers fail.";
+  }
+
+  document.getElementById("scoreText").innerText = score + " / 30";
+  document.getElementById("levelText").innerText = level;
+  document.getElementById("interpretation").innerText = text;
+}
+
+function sendEmail() {
+  const email = "contact@d2fcompliant.com";
+  const subject = "D2F Regulatory Dependency Assessment Result";
+  const body =
+    "Name: " + document.getElementById("name").value + "%0D%0A" +
+    "Organisation: " + document.getElementById("company").value + "%0D%0A" +
+    "Email: " + document.getElementById("email").value + "%0D%0A" +
+    "Score: " + score + "/30%0D%0A";
+  window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+}
+</script>
+</body>
+</html>
